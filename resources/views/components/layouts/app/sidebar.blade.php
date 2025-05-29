@@ -140,32 +140,19 @@
         </flux:navlist>
     </div>
 
-    <!-- Status Info Box -->
-    <div class="mx-2 mb-3 p-2 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20">
-        <div class="flex items-center mb-1.5">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1.5 text-blue-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-            </svg>
-            <span class="font-bold text-xs text-blue-100">Statistik Sistem</span>
-        </div>
-        <div class="grid grid-cols-2 gap-2 text-xs font-medium text-blue-50">
-            <div>
-                <div class="flex justify-between mb-0.5">
-                    <span>PKL Aktif</span>
-                    <span>10%</span>
-                </div>
-                <div class="w-full bg-blue-800/50 rounded-full h-1.5">
-                    <div class="bg-blue-100 h-1.5 rounded-full" style="width: 10%"></div>
-                </div>
+    <!-- System Status Info -->
+    <div class="mx-3 mb-4 p-3 bg-gradient-to-r from-green-500/20 to-blue-500/20 backdrop-blur-sm rounded-xl border border-white/20">
+        <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center">
+                <div class="h-2 w-2 bg-green-400 rounded-full mr-2 notification-badge"></div>
+                <span class="font-bold text-xs text-white">System Online</span>
             </div>
-            <div>
-                <div class="flex justify-between mb-0.5">
-                    <span>Siswa</span>
-                    <span>91%</span>
-                </div>
-                <div class="w-full bg-blue-800/50 rounded-full h-1.5">
-                    <div class="bg-green-300 h-1.5 rounded-full" style="width: 92%"></div>
-                </div>
+            <span class="text-xs text-blue-100">{{ now()->format('H:i') }}</span>
+        </div>
+        <div class="text-xs text-blue-100">
+            <div class="flex justify-between items-center">
+                <span>Last Update:</span>
+                <span class="font-medium">{{ now()->format('d/m/Y') }}</span>
             </div>
         </div>
     </div>

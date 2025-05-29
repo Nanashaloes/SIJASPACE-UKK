@@ -5,6 +5,7 @@ namespace App\Livewire\Siswa;
 use Livewire\Component;
 use App\Models\Siswa;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Auth;
 
 class Index extends Component
 {
@@ -12,6 +13,7 @@ class Index extends Component
 
     public $numpage = 10;
     public $search;
+    public $userMail;
 
     public function updatingSearch()
     {
@@ -27,6 +29,16 @@ class Index extends Component
     // Method for handling render
     public function render()
     {
+         $user = Auth::user(); // mengisi variabel user
+
+        // jika yang login Siswa, yang ditampilkan adalah data  diri sendiri berdasarkan email yang sedang login.
+        if ($user->hasRole('Siswa')) {
+            $siswaList = Siswa::where('email', $user->email)->get();
+
+            return view('livewire.siswa.index', [
+                'siswaList' => $siswaList,
+            ]);
+        }
         $query = Siswa::query();
 
         if (!empty($this->search)) {
@@ -38,10 +50,10 @@ class Index extends Component
 
         $query->orderBy('nama', 'asc');
 
-        $this->siswaList = $query->paginate($this->numpage);
+        $siswaList = $query->paginate($this->numpage);
 
         return view('livewire.siswa.index', [
-            'siswaList' => $this->siswaList,
+            'siswaList' => $siswaList,
         ]);
     }
 
@@ -72,5 +84,9 @@ class Index extends Component
         } else {
             return 'Status tidak diketahui';
         }
+    }
+    public function mount()
+    {
+        $this->userMail = Auth::user()->email;
     }
 }

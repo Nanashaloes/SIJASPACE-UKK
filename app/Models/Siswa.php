@@ -11,11 +11,16 @@ class Siswa extends Model
     use HasFactory;
     protected $table = 'siswa';
 
-    protected $fillable = ['nama', 'nis', 'gender', 'alamat', 'kontak', 'email', 'foto', 'status_pkl'];
+    protected $fillable = ['nama', 'nis', 'gender', 'alamat', 'kontak', 'email', 'foto', 'status_pkl', 'user_id'];
     
     public function pkl()
     {
         return $this->hasMany(PKL::class);
+    }
+
+     public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
     // Accessor untuk keterangan gender

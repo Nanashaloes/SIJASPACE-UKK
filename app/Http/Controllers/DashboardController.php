@@ -14,7 +14,12 @@ class DashboardController extends Controller
     {
         $aktivitas = [];
 
-        // Ambil data terbaru
+        // Hitung total
+        $jumlahSiswa = Siswa::count();
+        $siswaAktifPkl = Siswa::where('status_pkl', 1)->count();
+        $industriTerdaftar = Industri::count();
+
+        // Ambil data terbaru untuk aktivitas
         $siswas = Siswa::latest()->take(5)->get();
         foreach ($siswas as $siswa) {
             $aktivitas[] = [
@@ -56,6 +61,11 @@ class DashboardController extends Controller
             return strtotime($b['tanggal']) - strtotime($a['tanggal']);
         });
 
-        return view('dashboard', compact('aktivitas'));
+        return view('dashboard', compact(
+            'aktivitas',
+            'jumlahSiswa',
+            'siswaAktifPkl',
+            'industriTerdaftar'
+        ));
     }
 }
