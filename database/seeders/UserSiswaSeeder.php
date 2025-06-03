@@ -41,6 +41,7 @@ class UserSiswaSeeder extends Seeder
             ['GABRIEL POSSENTI GENTA BAHANA NAGARI', '20410'],
             ['GILANG NURHUDA', '20411'],
             ['GISELO KRISTIYANTO', '20412'],
+            ['ILHAM PUTRA MAHENDRA', '20413'],
             ['INTAN LUVIA HISANAH', '20414'],
             ['ISNAINI NUR WAHYUNINGSIH', '20415'],
             ['IZZUDDIN FAYYEDH HAQ', '20416'],
