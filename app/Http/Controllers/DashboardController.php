@@ -47,7 +47,7 @@ class DashboardController extends Controller
             ];
         }
 
-        $pkls = Pkl::latest()->take(5)->get();
+        $pkls = PKL::latest()->take(5)->get();
         foreach ($pkls as $pkl) {
             $aktivitas[] = [
                 'nama' => optional($pkl->siswa)->nama ?? 'Siswa tidak ditemukan',
