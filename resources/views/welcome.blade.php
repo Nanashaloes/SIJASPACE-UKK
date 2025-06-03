@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>SijaSpace - Praktik Kerja Lapangan SIJA</title>
+    <title>SijaSpace</title>
+    <link rel="icon" type="image/png" href="{{ asset('space.png') }}">
     @vite('resources/css/app.css')
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -134,6 +135,11 @@
                         Masuk Sekarang
                     </a>
                     @if (Route::has('register'))
+                        @auth
+                        <div class="display-none">
+                            
+                        </div>
+                        @else
                         <a href="{{ route('register') }}"
                            class="border border-white/30 hover:bg-white/10 text-white px-7 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -141,6 +147,7 @@
                             </svg>
                             Daftar
                         </a>
+                        @endauth
                     @endif
                 </div>
                 
@@ -152,7 +159,7 @@
                         <div class="w-10 h-10 rounded-full bg-blue-700 border-2 border-white flex items-center justify-center text-xs font-semibold">L</div>
                     </div>
                     <div class="text-sm text-blue-100">
-                        <strong>67 SISWA</strong><br>
+                        <strong>{{ $jumlahSiswa }} SISWA</strong><br>
                         <span class="opacity-80">telah bergabung</span>
                     </div>
                 </div>

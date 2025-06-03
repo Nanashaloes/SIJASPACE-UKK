@@ -124,52 +124,124 @@
         <!-- Quick Actions & System Info -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             
-            <!-- Quick Actions -->
-            <div class="bg-white p-6 rounded-xl shadow border border-gray-200">
-                <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                    Aksi Cepat
-                </h3>
-                <div class="grid grid-cols-2 gap-3">
-                    <a href="{{ route('siswa.create') }}" class="p-4 bg-gradient-to-r from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200 rounded-lg border border-blue-200 transition-all duration-200 group">
-                        <div class="flex flex-col items-center text-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500 mb-2 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-                            </svg>
-                            <span class="text-sm font-medium text-gray-700">Tambah Siswa</span>
-                        </div>
-                    </a>
+<!-- Quick Actions -->
+<div class="bg-white p-6 rounded-xl shadow border border-gray-200">
+    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+        </svg>
+        Aksi Cepat
+    </h3>
 
-                    <a href="{{ route('industri.create') }}" class="p-4 bg-gradient-to-r from-green-50 to-green-100 hover:from-green-100 hover:to-green-200 rounded-lg border border-green-200 transition-all duration-200 group">
-                        <div class="flex flex-col items-center text-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500 mb-2 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                            </svg>
-                            <span class="text-sm font-medium text-gray-700">Tambah Industri</span>
+            <!-- Grid 2x2 -->
+            <div class="grid grid-cols-2 gap-4">
+                    <!-- Tambah Siswa -->
+                    @if(auth()->user()->hasRole('super_admin'))
+                        <a href="{{ route('siswa.create') }}" class="p-4 bg-gradient-to-r from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200 rounded-lg border border-blue-200 transition group">
+                            <div class="flex flex-col items-center text-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500 mb-2 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                                </svg>
+                                <span class="text-sm font-medium text-gray-700">Tambah Siswa</span>
+                            </div>
+                        </a>
+                    @else
+                        <div class="relative group">
+                            <div class="p-4 bg-gradient-to-r from-gray-100 to-gray-200 rounded-lg border border-gray-300 cursor-not-allowed opacity-60">
+                                <div class="flex flex-col items-center text-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                                    </svg>
+                                    <span class="text-sm font-medium text-gray-500">Tambah Siswa</span>
+                                </div>
+                            </div>
+                            <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 text-xs text-white bg-gray-800 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
+                                <div class="text-center">
+                                    <div class="font-medium">Akses Terbatas</div>
+                                    <div class="text-gray-300">Hanya Super Admin</div>
+                                </div>
+                            </div>
                         </div>
-                    </a>
-                </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <a href="{{ route('guru.create') }}" class="p-4 bg-gradient-to-r from-purple-50 to-purple-100 hover:from-purple-100 hover:to-purple-200 rounded-lg border border-purple-200 transition-all duration-200 group">
-                        <div class="flex flex-col items-center text-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-500 mb-2 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                            </svg>
-                            <span class="text-sm font-medium text-gray-700">Tambah Guru</span>
+                    @endif
+
+                    <!-- Tambah Industri -->
+                    @if(auth()->user()->hasRole(['Siswa', 'super_admin']))
+                        <a href="{{ route('industri.create') }}" class="p-4 bg-gradient-to-r from-green-50 to-green-100 hover:from-green-100 hover:to-green-200 rounded-lg border border-green-200 transition group">
+                            <div class="flex flex-col items-center text-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500 mb-2 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                </svg>
+                                <span class="text-sm font-medium text-gray-700">Tambah Industri</span>
+                            </div>
+                        </a>
+                    @else
+                        <div class="relative group">
+                            <div class="p-4 bg-gradient-to-r from-gray-100 to-gray-200 rounded-lg border border-gray-300 cursor-not-allowed opacity-60">
+                                <div class="flex flex-col items-center text-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                    </svg>
+                                    <span class="text-sm font-medium text-gray-500">Tambah Industri</span>
+                                </div>
+                            </div>
+                            <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 text-xs text-white bg-gray-800 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
+                                <div class="text-center">
+                                    <div class="font-medium">Akses Terbatas</div>
+                                    <div class="text-gray-300">Hanya Siswa & Super Admin</div>
+                                </div>
+                            </div>
                         </div>
-                    </a>
-                    
-                    <a href="{{ route('pkl.create') }}" class="p-4 bg-gradient-to-r from-orange-50 to-orange-100 hover:from-orange-100 hover:to-orange-200 rounded-lg border border-orange-200 transition-all duration-200 group">
-                         <div class="flex flex-col items-center text-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-orange-500 mb-2 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                            <span class="text-sm font-medium text-gray-700">Tambah PKL</span>
+                    @endif
+
+                    <!-- Tambah Guru -->
+                    @if(auth()->user()->hasRole('super_admin'))
+                        <a href="{{ route('guru.create') }}" class="p-4 bg-gradient-to-r from-purple-50 to-purple-100 hover:from-purple-100 hover:to-purple-200 rounded-lg border border-purple-200 transition group">
+                            <div class="flex flex-col items-center text-center">
+                                <x-heroicon-o-academic-cap class="h-6 w-6 text-purple-500 mb-2 group-hover:scale-110 transition-transform" />
+                                <span class="text-sm font-medium text-gray-700">Tambah Guru</span>
+                            </div>
+                        </a>
+                    @else
+                        <div class="relative group">
+                            <div class="p-4 bg-gradient-to-r from-gray-100 to-gray-200 rounded-lg border border-gray-300 cursor-not-allowed opacity-60">
+                                <div class="flex flex-col items-center text-center">
+                                    <x-heroicon-o-academic-cap class="h-6 w-6 text-gray-400 mb-2" />
+                                    <span class="text-sm font-medium text-gray-500">Tambah Guru</span>
+                                </div>
+                            </div>
+                            <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 text-xs text-white bg-gray-800 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
+                                <div class="text-center">
+                                    <div class="font-medium">Akses Terbatas</div>
+                                    <div class="text-gray-300">Hanya Super Admin</div>
+                                </div>
+                            </div>
                         </div>
-                    </a>
+                    @endif
+
+                    <!-- Lapor PKL -->
+                    @if(auth()->user()->hasRole(['Siswa', 'super_admin']))
+                        <a href="{{ route('pkl.create') }}" class="p-4 bg-gradient-to-r from-orange-50 to-orange-100 hover:from-orange-100 hover:to-orange-200 rounded-lg border border-orange-200 transition group">
+                            <div class="flex flex-col items-center text-center">
+                                <x-heroicon-o-briefcase class="h-6 w-6 text-orange-500 mb-2 group-hover:scale-110 transition-transform" />
+                                <span class="text-sm font-medium text-gray-700">Lapor PKL</span>
+                            </div>
+                        </a>
+                    @else
+                        <div class="relative group">
+                            <div class="p-4 bg-gradient-to-r from-gray-100 to-gray-200 rounded-lg border border-gray-300 cursor-not-allowed opacity-60">
+                                <div class="flex flex-col items-center text-center">
+                                    <x-heroicon-o-briefcase class="h-6 w-6 text-gray-400 mb-2" />
+                                    <span class="text-sm font-medium text-gray-500">Lapor PKL</span>
+                                </div>
+                            </div>
+                            <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 text-xs text-white bg-gray-800 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
+                                <div class="text-center">
+                                    <div class="font-medium">Akses Terbatas</div>
+                                    <div class="text-gray-300">Hanya Siswa & Super Admin</div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
 
@@ -222,7 +294,7 @@
                             </svg>
                             <span class="text-sm font-medium text-gray-700">Versi Aplikasi</span>
                         </div>
-                        <span class="text-sm font-semibold text-gray-600">v2.1.0</span>
+                        <span class="text-sm font-semibold text-gray-600">v2.1.0
                     </div>
                 </div>
             </div>
@@ -245,8 +317,8 @@
                         </svg>
                     </div>
                     <div>
-                        <p class="text-sm font-medium text-gray-800">Pengingat: Evaluasi PKL</p>
-                        <p class="text-xs text-gray-600 mt-1">Evaluasi semester akan dimulai minggu depan. Pastikan semua data PKL sudah lengkap.</p>
+                        <p class="text-sm font-medium text-gray-800">WAJIB DIKETAHUI</p>
+                        <p class="text-xs text-gray-600 mt-1">Selain Admin tidak bisa menambahkan data Guru, data Siswa, data PKL dan data Industri. Untuk Siiswa dapat menambahkan Lapor PKL.</p>
                     </div>
                 </div>
                 

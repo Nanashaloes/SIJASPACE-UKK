@@ -1,6 +1,6 @@
 <div class="p-6 max-w-3xl mx-auto bg-white shadow-md rounded-lg text-sm">
     <h2 class="text-xl font-semibold mb-4 text-center text-blue-700">
-        {{ $id ? 'Edit Siswa' : 'Tambah PKL' }}
+        {{ $id ? 'Edit Data PKL' : 'Tambah PKL' }}
     </h2>
      <form wire:submit.prevent="save" class="space-y-6">
         <!-- Nama Siswa -->

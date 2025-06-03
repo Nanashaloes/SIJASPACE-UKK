@@ -1,84 +1,96 @@
-<div class="flex flex-col gap-6">
-    <x-auth-header :title="__('Create an account')" :description="__('Enter your details below to create your account')" />
+<div class="max-w-md mx-auto bg-white p-8 rounded-xl shadow-lg border border-gray-200">
+    <div class="flex flex-col gap-2 mb-6 text-center">
+        <h2 class="text-2xl font-bold text-gray-800">Buat Akun Baru</h2>
+        <p class="text-sm text-gray-500">Isi detail di bawah untuk mendaftar akun Anda</p>
+    </div>
 
-    <!-- Session Status -->
-    <x-auth-session-status class="text-center" :status="session('status')" />
+    <!-- Status Sesi -->
+    <x-auth-session-status class="text-center mb-4 text-green-600" :status="session('status')" />
 
-    <form wire:submit="register" class="flex flex-col gap-6">
+ <!-- Form -->
+    <form wire:submit="register" class="relative z-10 flex flex-col gap-6">
         <!-- Name -->
         <flux:input
             wire:model="name"
-            :label="__('Name')"
+            :label="('Name')"
             type="text"
             required
             autofocus
             autocomplete="name"
-            :placeholder="__('Full name')"
+            :placeholder="('Full name')"
+            class="bg-gray-800 text-gray-100 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         />
 
-        <!-- Email Address -->
+        <!-- Email -->
         <flux:input
             wire:model="email"
-            :label="__('Email address')"
+            :label="('Email address')"
             type="email"
             required
             autocomplete="email"
             placeholder="email@example.com"
+            class="bg-gray-800 text-gray-100 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         />
 
         <!-- Password -->
         <flux:input
             wire:model="password"
-            :label="__('Password')"
+            :label="('Password')"
             type="password"
             required
             autocomplete="new-password"
-            :placeholder="__('Password')"
+            :placeholder="('Password')"
             viewable
+            class="bg-gray-800 text-gray-100 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         />
 
         <!-- Confirm Password -->
         <flux:input
             wire:model="password_confirmation"
-            :label="__('Confirm password')"
+            :label="('Confirm password')"
             type="password"
             required
             autocomplete="new-password"
-            :placeholder="__('Confirm password')"
+            :placeholder="('Confirm password')"
             viewable
+            class="bg-gray-800 text-gray-100 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         />
 
-        <!-- Role Selection (Optional) -->
+        <!-- Pemilihan Peran (Opsional, bisa aktifkan kalau mau) -->
         <!--
-        <div class="flex flex-col gap-2">
-            <label for="role" class="font-semibold">{{ __('Select Account Type') }}</label>
-            <select wire:model="role" id="role" required class="p-2 border border-gray-300 rounded">
-                <option value="">{{ __('Select Role') }}</option>
-                <option value="guru">{{ __('Teacher') }}</option>
-                <option value="siswa">{{ __('Student') }}</option>
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Pilih Tipe Akun</label>
+            <select wire:model="role" required class="w-full p-2 border border-gray-300 rounded-lg">
+                <option value="">-- Pilih Peran --</option>
+                <option value="guru">Guru</option>
+                <option value="siswa">Siswa</option>
             </select>
         </div>
         -->
 
-        <div class="flex items-center justify-end">
+        <div class="mt-4">
             <flux:button
                 type="submit"
                 variant="primary"
-                class="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                class="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold rounded-lg py-2 transition"
             >
-                {{ __('Create account') }}
+                Daftar Sekarang
             </flux:button>
         </div>
     </form>
 
-    <div class="space-x-1 rtl:space-x-reverse text-center text-sm text-zinc-600 dark:text-zinc-400">
-        {{ __('Already have an account?') }}
+    <div class="mt-6 text-center text-sm text-gray-600">
+        Sudah punya akun?
         <flux:link
             :href="route('login')"
             wire:navigate
-            class="text-blue-600 hover:text-blue-800"
+            class="text-blue-600 hover:text-blue-800 font-semibold"
         >
-            {{ __('Log in') }}
+            Masuk di sini
         </flux:link>
     </div>
 </div>
+<!-- TITLE -->
+<script>
+    document.title = 'Daftar akun';
+</script>

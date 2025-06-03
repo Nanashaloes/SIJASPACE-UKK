@@ -18,10 +18,12 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
+// Dashboard → controller + blade, jadi pastikan sudah panggil livewire/blade
 Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->middleware(['auth'])
+    ->middleware(['auth', 'verified', 'check.roles'])
     ->name('dashboard');
 
+// Halaman index (blade)
 Route::view('siswa', 'siswa')
     ->middleware(['auth', 'verified', 'check.roles'])
     ->name('siswa');
@@ -38,12 +40,8 @@ Route::view('pkl', 'pkl')
     ->middleware(['auth', 'verified', 'check.roles'])
     ->name('pkl');
 
-Route::middleware(['auth'])->group(function () {
-    Route::redirect('settings', 'settings/profile');
-
-Route::middleware(['auth'])->group(function () {
-    Route::get('/siswa/create', \App\Livewire\Siswa\Form::class)->name('siswa.create');
-});
+// Group untuk semua Livewire routes + settings
+Route::middleware(['auth', 'verified', 'check.roles'])->group(function () {
     // CRUD Siswa Livewire
     Route::get('/siswa/show/{id}', View::class)->name('siswa.show');
     Route::get('/siswa/create', Form::class)->name('siswa.create');
@@ -64,6 +62,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/pkl/create', PKLForm::class)->name('pkl.create');
     Route::get('/pkl/edit/{id}', PKLForm::class)->name('pkl.edit');
 
+    // Settings pages
+    Route::redirect('settings', 'settings/profile');
     Route::get('settings/profile', Profile::class)->name('settings.profile');
     Route::get('settings/password', Password::class)->name('settings.password');
     Route::get('settings/appearance', Appearance::class)->name('settings.appearance');

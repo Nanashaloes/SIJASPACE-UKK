@@ -3,18 +3,24 @@
         <div class="siswa-container h-[calc(100vh-200px)] flex flex-col">
             {{-- Header: Tombol Tambah, Judul, dan Pencarian --}}
             <div class="flex justify-between items-center px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-blue-700 to-blue-600 text-white">
+    
+                @if(auth()->user()->hasRole('super_admin'))
                 <a href="{{ route('siswa.create') }}"
-                   class="bg-white hover:bg-blue-50 text-blue-700 font-medium px-4 py-2 rounded-lg transition duration-200 flex items-center gap-2 shadow-sm">
+                class="bg-white hover:bg-blue-50 text-blue-700 font-medium px-4 py-2 rounded-lg transition duration-200 flex items-center gap-2 shadow-sm">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                     </svg>
                     Tambah Siswa
                 </a>
-                
+                @else
+                <div></div> {{-- Supaya layout flex tetap rata tengah --}}
+                @endif
+
                 <h2 class="text-xl font-bold">
                     Daftar Siswa
                 </h2>
 
+                @if(auth()->user()->hasRole('super_admin'))
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <svg class="w-4 h-4 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -28,83 +34,112 @@
                         class="pl-10 pr-4 py-2 w-60 rounded-lg bg-blue-800/30 border border-blue-500 text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-white/50"
                     />
                 </div>
+                @else
+                <div></div> {{-- Supaya layout flex tetap rata tengah --}}
+                @endif
             </div>
+
 
             {{-- Notifikasi --}}
             @if (session()->has('message'))
-                <div class="bg-blue-50 text-blue-700 px-6 py-3 m-4 mb-0 rounded-md border-l-4 border-blue-500 flex items-center">
+                <div
+                    x-data="{ show: true }"
+                    x-init="setTimeout(() => show = false, 5000)"
+                    x-show="show"
+                    x-transition
+                    class="bg-blue-50 text-blue-700 px-6 py-3 rounded-md border-l-4 border-blue-500 flex items-center"
+                >
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
-                    {{ session('message') }}
+                    <span>{{ session('message') }}</span>
                 </div>
             @endif
 
-            {{-- Tabel dengan scroll --}}
-            <div class="overflow-auto mx-4 my-4 max-h-[360px] rounded-xl border border-gray-200 shadow-sm bg-white">
-                <table class="min-w-full text-sm text-gray-700 border-collapse">
+
+            {{-- Tabel Siswa --}}
+            <div class="overflow-auto flex-1 rounded-xl border border-gray-200 shadow-sm">
+                <table class="min-w-full text-sm text-gray-700">
                     <thead class="bg-gradient-to-r from-blue-700 to-blue-600 text-white text-xs uppercase sticky top-0 z-10">
                         <tr>
-                            <th class="px-6 py-3 text-left font-medium tracking-wider">Nama</th>
-                            <th class="px-6 py-3 text-left font-medium tracking-wider">NIS</th>
-                            <th class="px-6 py-3 text-left font-medium tracking-wider">Jenis Kelamin</th>
-                            <th class="px-6 py-3 text-left font-medium tracking-wider">Status PKL</th>
-                            <th class="px-6 py-3 text-left font-medium tracking-wider">Kontak</th>
-                            <th class="px-6 py-3 text-center font-medium tracking-wider">Aksi</th>
+                            <th class="px-6 py-3 text-left font-medium">Nama</th>
+                            <th class="px-6 py-3 text-left font-medium">NIS</th>
+                            <th class="px-6 py-3 text-left font-medium">Jenis Kelamin</th>
+                            <th class="px-6 py-3 text-left font-medium">Status PKL</th>
+                            <th class="px-6 py-3 text-left font-medium">Kontak</th>
+                            <th class="px-6 py-3 text-center font-medium">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200 bg-white">
                         @forelse ($siswaList as $siswa)
-                            <tr class="hover:bg-blue-50 transition-colors duration-150">
-                                <td class="px-6 py-3 whitespace-nowrap">{{ $siswa->nama }}</td>
-                                <td class="px-6 py-3 whitespace-nowrap">{{ $siswa->nis }}</td>
-                                <td class="px-6 py-3 whitespace-nowrap">{{ $this->ketGender($siswa->gender) }}</td>
-                                <td class="px-6 py-3 whitespace-nowrap">
-                                    @php
-                                        $statusClass = match($siswa->status_pkl) {
-                                            1 => 'bg-yellow-100 text-yellow-800 border-yellow-200',
-                                            2 => 'bg-green-100 text-green-800 border-green-200',
-                                            3 => 'bg-blue-100 text-blue-800 border-blue-200',
-                                            default => 'bg-gray-100 text-gray-800 border-gray-200'
-                                        };
-                                    @endphp
-                                    <span class="px-3 py-1 text-xs rounded-full {{ $statusClass }} border">
-                                        {{ $this->ketStatusPKL($siswa->status_pkl) }}
-                                    </span>
-                                </td>
-                                <td class="px-6 py-3 whitespace-nowrap">{{ $siswa->kontak }}</td>
-                                <td class="px-6 py-3 text-center whitespace-nowrap">
-                                    <div x-data="{ open: false }" class="relative inline-block">
-                                        <button @click="open = !open"
-                                                class="bg-gray-100 hover:bg-gray-200 p-1.5 rounded-lg text-gray-600 hover:text-blue-700 focus:outline-none transition-colors duration-150">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
-                                            </svg>
-                                        </button>
+                        <tr class="hover:bg-blue-50 transition-colors">
+                            <td class="px-6 py-3 max-w-[12rem] truncate">{{ $siswa->nama }}</td>
+                            <td class="px-6 py-3">{{ $siswa->nis }}</td>
+                            <td class="px-6 py-3">{{ $this->ketGender($siswa->gender) }}</td>
+                            <td class="px-6 py-3">
+                                @php
+                                    $statusClass = match($siswa->status_pkl) {
+                                        1 => 'bg-yellow-100 text-yellow-800 border-yellow-200',
+                                        2 => 'bg-green-100 text-green-800 border-green-200',
+                                        3 => 'bg-blue-100 text-blue-800 border-blue-200',
+                                        default => 'bg-gray-100 text-gray-800 border-gray-200'
+                                    };
+                                @endphp
+                                <span class="px-3 py-1 text-xs rounded-full {{ $statusClass }} border">
+                                    {{ $this->ketStatusPKL($siswa->status_pkl) }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-3">{{ $siswa->kontak }}</td>
+                            <td class="px-6 py-3 text-center">
+                                <div x-data="{ open: false }" class="relative inline-block">
+                                    <button @click="open = !open"
+                                            class="bg-gray-100 hover:bg-gray-200 p-1.5 rounded-lg text-gray-600 hover:text-blue-700 focus:outline-none transition-colors duration-150">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+                                        </svg>
+                                    </button>
+
                                         <div x-show="open" x-transition @click.away="open = false"
-                                             class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                                            class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
                                             <a href="{{ route('siswa.show', ['id' => $siswa->id]) }}"
-                                               class="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded-t-lg">
+                                            class="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded-t-lg">
                                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
                                                 </svg>
                                                 Lihat
                                             </a>
+
                                             <a href="{{ route('siswa.edit', ['id' => $siswa->id]) }}"
-                                               class="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700">
+                                            class="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700">
                                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                                                 </svg>
                                                 Edit
                                             </a>
-                                            <button wire:click="delete({{ $siswa->id }})"
-                                                    class="flex items-center w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 hover:text-red-700 rounded-b-lg">
+
+                                            @if(auth()->user()->hasRole('super_admin'))
+                                            <button
+                                                @click.prevent="
+                                                    if (confirm('Yakin ingin menghapus data siswa ini?')) {
+                                                        $wire.delete({{ $siswa->id }});
+                                                        open = false;
+                                                    }
+                                                "
+                                                class="flex items-center w-full px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 hover:text-red-700 rounded-b-lg focus:outline-none"
+                                            >
                                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5-4h4m-4 0a1 1 0 00-1 1v1h6V4a1 1 0 00-1-1m-4 0h4"></path>
                                                 </svg>
                                                 Hapus
                                             </button>
+                                            @endif
                                         </div>
                                     </div>
                                 </td>
@@ -124,7 +159,9 @@
             </div>
 
             {{-- Pagination --}}
-            <div class="flex justify-between items-center px-6 py-3 bg-gray-50 border-t border-gray-200">
+            @if(auth()->user()->hasRole('super_admin'))
+                {{-- Dropdown pilih jumlah data per halaman --}}
+                <div class="flex flex-col md:flex-row justify-between items-center px-6 py-3 bg-gray-50 border-t border-gray-200 space-y-3 md:space-y-0">
                 <div class="flex items-center gap-2">
                     <label for="perPage" class="text-sm text-gray-600">Tampilkan:</label>
                     <select wire:model="numpage" wire:change="updatePageSize($event.target.value)"
@@ -132,14 +169,18 @@
                         <option value="10">10</option>
                         <option value="25">25</option>
                         <option value="50">50</option>
-                        <option value="{{ $siswaList->total() }}">Semua</option>
+                        <option value="{{ $siswaList->total() }}">Semua</option> {{-- EDITED HERE --}}
                     </select>
                     <span class="text-sm text-gray-600">data per halaman</span>
                 </div>
+            @endif
                 <div>
+                     <div class="w-full md:w-auto">
                     {{ $siswaList->links('vendor.pagination.tailwind') }}
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+

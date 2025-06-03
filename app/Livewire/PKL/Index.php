@@ -28,15 +28,23 @@ class Index extends Component
     {
         $query = PKL::query();
 
+        // Filter berdasarkan role
+        if (auth()->user()->role === 'siswa') {
+            $query->where('siswa_id', auth()->user()->siswa->id);
+        } elseif (auth()->user()->role === 'guru') {
+            $query->where('guru_id', auth()->user()->guru->id);
+        }
+        // Super admin: tidak difilter, ambil semua
+
         if (!empty($this->search)) {
             $query->join('siswa', 'pkl.siswa_id', '=', 'siswa.id')
-                  ->join('industri', 'pkl.industri_id', '=', 'industri.id')
-                  ->join('guru', 'pkl.guru_id', '=', 'guru.id')
-                  ->where(function ($q) {
-                      $q->where('siswa.nama', 'like', '%' . $this->search . '%')
+                ->join('industri', 'pkl.industri_id', '=', 'industri.id')
+                ->join('guru', 'pkl.guru_id', '=', 'guru.id')
+                ->where(function ($q) {
+                    $q->where('siswa.nama', 'like', '%' . $this->search . '%')
                         ->orWhere('industri.nama', 'like', '%' . $this->search . '%')
                         ->orWhere('guru.nama', 'like', '%' . $this->search . '%');
-                  });
+                });
         }
 
         $pklList = $query->select('pkl.*')->paginate($this->numpage);

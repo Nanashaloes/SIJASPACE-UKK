@@ -1,37 +1,43 @@
-<div class="flex flex-col gap-6">
-    <x-auth-header :title="__('Log in to your account')" :description="__('Enter your email and password below to log in')" />
+<div class="max-w-md mx-auto bg-white p-8 rounded-xl shadow-lg border border-gray-200">
+    <div class="flex flex-col gap-2 mb-6 text-center">
+        <h2 class="text-2xl font-bold text-gray-800">Masuk ke Akun Anda</h2>
+        <p class="text-sm text-gray-500">Masukkan email dan kata sandi Anda di bawah untuk masuk</p>
+    </div>
 
-    <!-- Session Status -->
-    <x-auth-session-status class="text-center" :status="session('status')" />
+    <!-- Status Sesi -->
+    <x-auth-session-status class="text-center mb-4 text-green-600" :status="session('status')" />
 
-    <form wire:submit="login" class="flex flex-col gap-6">
+    <form wire:submit="login" class="flex flex-col gap-4">
+ <form wire:submit="login" class="relative z-10 flex flex-col gap-6">
         <!-- Email Address -->
         <flux:input
             wire:model="email"
-            :label="__('Email address')"
+            :label="('Email address')"
             type="email"
             required
             autofocus
             autocomplete="email"
             placeholder="email@example.com"
+            class="bg-gray-800 text-gray-100 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         />
 
         <!-- Password -->
         <div class="relative">
             <flux:input
                 wire:model="password"
-                :label="__('Password')"
+                :label="('Password')"
                 type="password"
                 required
                 autocomplete="current-password"
-                :placeholder="__('Password')"
+                :placeholder="('Password')"
                 viewable
+                class="bg-gray-800 text-gray-100 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
 
             @if (Route::has('password.request'))
-                <flux:link
-                    class="absolute end-0 top-0 text-sm text-blue-600 hover:text-blue-800"
-                    :href="route('password.request')"
+                <flux:link 
+                    class="absolute right-0 top-0 text-sm text-blue-400 hover:text-blue-300 hover:underline transition-colors" 
+                    :href="route('password.request')" 
                     wire:navigate
                 >
                     {{ __('Forgot your password?') }}
@@ -39,30 +45,41 @@
             @endif
         </div>
 
-        <!-- Remember Me -->
-        <flux:checkbox wire:model="remember" :label="__('Remember me')" />
+        <!-- Ingat Saya -->
+        <div class="flex items-center">
+            <flux:checkbox wire:model="remember" />
+            <span class="ml-2 text-sm text-gray-700">Ingat saya</span>
+        </div>
 
-        <div class="flex items-center justify-end">
+        <div class="mt-4">
             <flux:button
                 variant="primary"
                 type="submit"
-                class="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                class="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold rounded-lg py-2 transition"
             >
-                {{ __('Log in') }}
+                Masuk Sekarang
             </flux:button>
         </div>
     </form>
 
     @if (Route::has('register'))
-        <div class="space-x-1 rtl:space-x-reverse text-center text-sm text-zinc-600 dark:text-zinc-400">
-            {{ __('Don\'t have an account?') }}
+        <div class="mt-6 text-center text-sm text-gray-600">
+            Belum punya akun?
             <flux:link
                 :href="route('register')"
                 wire:navigate
-                class="text-blue-600 hover:text-blue-800"
+                class="text-blue-600 hover:text-blue-800 font-semibold"
             >
-                {{ __('Sign up') }}
+                Daftar di sini
             </flux:link>
         </div>
     @endif
 </div>
+<!-- TITLE LOGIN -->
+<script>
+    document.title = 'Login';
+</script>
+
+
+
+

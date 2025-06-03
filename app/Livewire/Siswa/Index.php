@@ -13,7 +13,6 @@ class Index extends Component
 
     public $numpage = 10;
     public $search;
-    public $userMail;
 
     public function updatingSearch()
     {
@@ -26,67 +25,44 @@ class Index extends Component
         session()->flash('message', 'Data siswa berhasil dihapus.');
     }
 
-    // Method for handling render
     public function render()
     {
-         $user = Auth::user(); // mengisi variabel user
-
-        // jika yang login Siswa, yang ditampilkan adalah data  diri sendiri berdasarkan email yang sedang login.
-        if ($user->hasRole('Siswa')) {
-            $siswaList = Siswa::where('email', $user->email)->get();
-
-            return view('livewire.siswa.index', [
-                'siswaList' => $siswaList,
-            ]);
-        }
+        $user = Auth::user();
         $query = Siswa::query();
+
+        // Jika user adalah siswa, hanya tampilkan datanya sendiri
+        if ($user->hasRole('Siswa')) {
+            $query->where('email', $user->email);
+        }
 
         if (!empty($this->search)) {
             $query->where(function($q) {
                 $q->where('nama', 'like', '%' . $this->search . '%')
-                ->orWhere('nis', 'like', '%' . $this->search . '%');
+                  ->orWhere('nis', 'like', '%' . $this->search . '%');
             });
         }
 
         $query->orderBy('nama', 'asc');
 
-        $siswaList = $query->paginate($this->numpage);
+        $this->siswaList = $query->paginate($this->numpage);
 
         return view('livewire.siswa.index', [
-            'siswaList' => $siswaList,
+            'siswaList' => $this->siswaList,
         ]);
     }
 
-
-    // Method to update number of items per page
     public function updatePageSize($size)
     {
         $this->numpage = $size;
     }
-    
+
     public function ketGender($gender)
     {
-        if ($gender === 'L') {
-            return 'Laki-laki';
-        } elseif ($gender === 'P') {
-            return 'Perempuan';
-        } else {
-            return 'Status tidak diketahui';
-        }
+        return $gender === 'L' ? 'Laki-laki' : ($gender === 'P' ? 'Perempuan' : 'Status tidak diketahui');
     }
 
     public function ketStatusPKL($status)
     {
-        if ($status === 0) {
-            return 'Belum diterima PKL';
-        } elseif ($status === 1) {
-            return 'Sudah diterima PKL';
-        } else {
-            return 'Status tidak diketahui';
-        }
-    }
-    public function mount()
-    {
-        $this->userMail = Auth::user()->email;
+        return $status === 0 ? 'Belum diterima PKL' : ($status === 1 ? 'Sudah diterima PKL' : 'Status tidak diketahui');
     }
 }
