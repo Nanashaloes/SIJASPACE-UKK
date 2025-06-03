@@ -39,6 +39,7 @@ class SiswaSeeder extends Seeder
             ['nama' => 'GABRIEL POSSENTI GENTA BAHANA NAGARI', 'nis' => '20410', 'gender' => 'L', 'alamat' => 'Alamat siswa', 'kontak' => '1234567812', 'email' => 'gabriel@example.com', 'status_pkl' => false],
             ['nama' => 'GILANG NURHUDA', 'nis' => '20411', 'gender' => 'L', 'alamat' => 'Alamat siswa', 'kontak' => '1234567813', 'email' => 'gilang@example.com', 'status_pkl' => false],
             ['nama' => 'GISELO KRISTIYANTO', 'nis' => '20412', 'gender' => 'L', 'alamat' => 'Alamat siswa', 'kontak' => '1234567814', 'email' => 'giselo@example.com', 'status_pkl' => false],
+            ['nama' => 'ILHAM PUTRA MAHENDRA', 'nis' => '20413', 'gender' => 'P', 'alamat' => 'Alamat siswa', 'kontak' => '089669502796', 'email' => 'ilham@sija.com', 'status_pkl' => false],
             ['nama' => 'INTAN LUVIA HISANAH', 'nis' => '20414', 'gender' => 'P', 'alamat' => 'Alamat siswa', 'kontak' => '1234567815', 'email' => 'intan@example.com', 'status_pkl' => false],
             ['nama' => 'ISNAINI NUR WAHYUNINGSIH', 'nis' => '20415', 'gender' => 'P', 'alamat' => 'Alamat siswa', 'kontak' => '1234567816', 'email' => 'isnaini@example.com', 'status_pkl' => false],
             ['nama' => 'IZZUDDIN FAYYEDH HAQ', 'nis' => '20416', 'gender' => 'L', 'alamat' => 'Alamat siswa', 'kontak' => '1234567817', 'email' => 'izzuddin@example.com', 'status_pkl' => false],
