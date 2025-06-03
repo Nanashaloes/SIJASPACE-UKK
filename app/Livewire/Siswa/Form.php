@@ -41,6 +41,9 @@ class Form extends Component
             'status_pkl' => 'required|boolean',
         ]);
 
+        // Format nomor kontak ke +62
+        $this->kontak = $this->formatNomor($this->kontak);
+
         $fotoPath = null;
         if ($this->foto) {
             $fotoPath = $this->foto->store('foto_siswa', 'public');
@@ -64,6 +67,15 @@ class Form extends Component
 
         session()->flash('message', 'Data siswa berhasil disimpan.');
         return redirect()->route('siswa');
+    }
+
+    private function formatNomor($nomor)
+    {
+        $nomor = preg_replace('/[^0-9]/', '', $nomor); // Hanya angka
+        if (str_starts_with($nomor, '0')) {
+            return '+62' . substr($nomor, 1);
+        }
+        return $nomor;
     }
 
     public function render()
